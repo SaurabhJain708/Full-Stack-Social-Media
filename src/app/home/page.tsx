@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Sun, Moon, ThumbsUp, MessageSquare, Share2 } from "lucide-react";
+import {ThumbsUp, MessageSquare, Share2 } from "lucide-react";
 import PhoneSidebar from "@/components/homepage/Phonesidebar";
 import DesktopSidebar from "@/components/homepage/DesktopSidebar";
 import Header from "@/components/homepage/Header";
@@ -55,7 +55,7 @@ export default function HomePage() {
         {/* Main Content */}
         <div className="flex-1 lg:ml-72 lg:mr-72 p-10">
           {/* Header */}
-          <Header isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}/>
+         <Header isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}/>
 
           <div className="max-w-4xl mx-auto space-y-12 mt-12">
 

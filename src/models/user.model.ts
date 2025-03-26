@@ -1,6 +1,5 @@
 import mongoose, { Document, Model } from "mongoose";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 interface Uts extends Document {
   name: string;
@@ -8,7 +7,6 @@ interface Uts extends Document {
   username: string;
   bio?: string;
   profileImage?: string;
-  refreshToken?: string;
   password: string;
   links: {
     website?: string;
@@ -24,7 +22,9 @@ interface Uts extends Document {
   tags: "NEW" | "MID" | "PRO" | "LEAD";
   skills: string[];
   theme: "DARK" | "LIGHT";
+  comparePassword(password:string): Promise<boolean>;
 }
+
 
 const userSchema: mongoose.Schema<Uts> = new mongoose.Schema<Uts>(
   {
@@ -50,9 +50,6 @@ const userSchema: mongoose.Schema<Uts> = new mongoose.Schema<Uts>(
       trim: true,
     },
     profileImage: {
-      type: String,
-    },
-    refreshToken: {
       type: String,
     },
     password: {
@@ -134,24 +131,6 @@ userSchema.methods.comparePassword = async function (
   return await bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.generateRefreshToken = function (): string {
-  const secret: string = process.env.REFRESH_TOKEN_SECRET!;
-  const refreshtoken = jwt.sign({ id: this._id }, secret, {
-    expiresIn: "7d",
-  });
-  return refreshtoken;
-};
-
-userSchema.methods.generateAccessToken = function (): string {
-  const accesstoken = jwt.sign(
-    { id: this._id },
-    process.env.ACCESS_TOKEN_SECRET!,
-    {
-      expiresIn: "15m",
-    }
-  );
-  return accesstoken;
-};
 
 export const User: Model<Uts> =
-  mongoose.models.User || mongoose.model("User", userSchema);
+  mongoose.models.User || mongoose.model<Model<Uts>>("User", userSchema);
