@@ -22,4 +22,4 @@ export const darkModeSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {incrementByAmount} = darkModeSlice.actions
 
-export default darkModeSlice.reducer
+export default darkModeSlice.reducer;
